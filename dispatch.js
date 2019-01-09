@@ -1,5 +1,6 @@
+'use strict';
 
-module.exports = (intentRequest) => {
+module.exports = async (intentRequest) => {
     // Return new promise
     return new Promise((resolve, reject) => {
      // Do async job
@@ -7,11 +8,11 @@ module.exports = (intentRequest) => {
      const userID = intentRequest.userId; 
      console.log(`UserId: ${userID} intentName: ${intentName}`);
      if(intentName === 'placeNewOrder'){
-         resolve(`Promise resolved ${intentName} was invoked`);
-
+        console.log(`Promise resolved ${intentName} was invoked`);
+        resolve(intentName);
      }
      else{
-         reject(err, `Intent ${intentName} is not supported yet`)
+        reject(err, `Intent ${intentName} is not supported yet`) 
      }
     });
 }
