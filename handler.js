@@ -1,10 +1,13 @@
 'use strict';
+const moment = require('moment');
 const dispatch = require('./dispatch');
 const orderCoffee = require('./orderCoffee');
 const lexResponses = require('./lexResponses');
 
 module.exports.intents = async (event, context) => {
-  console.log(`Context stored: ${context}`);
+  let today     = moment(new Date()).format("YYYY-MM-DD");
+  console.log(`Start Handler @ ${today}`)
+  console.log(`Context stored: ${JSON.stringify(context)}`);
   console.log(`event.bot.name= ${event.bot.name}`);
   try{
     let intentName = await dispatch(event).catch((err) => { 
