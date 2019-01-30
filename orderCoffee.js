@@ -5,15 +5,26 @@ module.exports = async (intentRequest) => {
     return new Promise((resolve, reject) => {
         // Do async job
         console.log(intentRequest);
+        let coffeeType=null, coffeeSize=null;
         const source = intentRequest.invocationSource;
-        const sourceDetails =  {
+        let sourceDetails =  {
             "sessionAt": intentRequest.sessionAttributes,
             "slots": intentRequest.currentIntent.slots
         };
-        let coffeeType = intentRequest.currentIntent.slots.coffeeType;
-        let coffeeSize = intentRequest.currentIntent.slots.size;
+        /*
+        coffeeType is set as Required on Console
+        coffeeSize is optional hence set a default value
+        */
+        coffeeType = intentRequest.currentIntent.slots.coffeeType;
+        coffeeSize = intentRequest.currentIntent.slots.size;
+        if(coffeeSize==null){
+            coffeeSize='medium';
+            sourceDetails.slots.size=coffeeSize;
+        }
+        else{
+            //pass - As coffeeSize is received via incoming Request
+        }
         console.log(`Slots captured  coffeeType: ${coffeeType} - coffeeSize: ${coffeeSize}`);
-
         if(source === 'DialogCodeHook'){
             console.log(`Promise resolved ${sourceDetails} have been found successfully`);
             resolve(sourceDetails);
