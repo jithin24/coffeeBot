@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = async (intentRequest) => {
+module.exports = (intentRequest) => {
     // Return new promise
     return new Promise((resolve, reject) => {
         // Do async job
@@ -30,7 +30,7 @@ module.exports = async (intentRequest) => {
             resolve(sourceDetails);
         }
         else{
-            reject(err, `Source ${source} is not supported yet`);
+            reject(`Source ${source} is not supported yet`);
         }
     });
     

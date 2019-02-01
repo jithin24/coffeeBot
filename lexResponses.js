@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.delegate = async (sessionAttributes, slots) => {
+module.exports.delegate = (sessionAttributes, slots) => {
     // Return new promise
     return new Promise((resolve, reject) => {
         // Do async job
