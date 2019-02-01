@@ -6,7 +6,7 @@ const lexResponses = require('./lexResponses');
 exports.intents = async (event, context) => {
   let today     = moment(new Date()).format("YYYY-MM-DD");
   console.log(`Start Intents Handler @ ${today}`);
-  console.log(`Context stored: ${JSON.stringify(context)}`);
+  console.log(event);
   console.log(`event.bot.name= ${event.bot.name}`);
   try{
     let eventSource = await dispatch(event).catch((err) => { 
@@ -17,14 +17,30 @@ exports.intents = async (event, context) => {
         };
       }); 
 
-    return await lexResponses.delegate(eventSource.sessionAt, eventSource.slots).catch((err) => { 
-      console.log(err); 
-      return {
-        statusCode: 500,
-        message: "Error on the Lambda execution at lexResponses module " + err
-      };
-    });
-
+    switch(eventSource.type){
+      case "Delegate":
+            return await lexResponses.delegate(eventSource).catch((err) => { 
+              console.log(err); 
+              return {
+                statusCode: 500,
+                message: "Error on the Lambda execution at lexResponses module " + err
+              };
+            }); 
+            
+      case "ElicitSlot":
+          return await lexResponses.elicitSlot(eventSource).catch((err) => { 
+            console.log(err); 
+            return {
+              statusCode: 500,
+              message: "Error on the Lambda execution at lexResponses module " + err
+            };
+          }); 
+      default:
+          return {
+            statusCode: 500,
+            message: "Error on the Lambda execution at lexResponses module"
+          };   
+    }//End of SWITCH
   }
   catch(err){
     console.log(`Error: ${err}`);

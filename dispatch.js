@@ -21,4 +21,4 @@ module.exports = (intentRequest) => {
         reject(`Intent ${intentName} is not supported yet`); 
      }
     });
-}
+};
