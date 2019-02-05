@@ -1,6 +1,6 @@
 'use strict';
 
-const coffeeList=['americano', 'expresso', 'Nescafe', 'latte', 'caffenia', 'plain', 'cappucino'];
+const coffeeList=['americano', 'expresso', 'nescafe', 'latte', 'caffenia', 'plain', 'cappucino'];
 
 module.exports = (intentRequest) => {
     // Return new promise

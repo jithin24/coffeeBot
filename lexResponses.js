@@ -54,3 +54,23 @@ module.exports.elicitSlot = (event) => {
         });
     });
 };
+
+
+module.exports.close = (event) => {
+    // Return new promise
+    let sessionAttributes=event.sessionAttributes;
+    let type=event.type;
+    let fulfillmentState=event.fulfillmentState;
+    let message=event.message;
+    return new Promise((resolve, reject) => {
+        //Assign and use the ES6 de-spread operator syntax
+        console.log(`Attributes: ${sessionAttributes} - state: ${fulfillmentState}`);
+        resolve ({
+            dialogAction: {
+                type,
+                fulfillmentState,
+                message
+            }
+        });
+    });
+};

@@ -25,8 +25,7 @@ exports.intents = async (event, context) => {
                 statusCode: 500,
                 message: "Error on the Lambda execution at lexResponses module " + err
               };
-            }); 
-            
+            });           
       case "ElicitSlot":
           return await lexResponses.elicitSlot(eventSource).catch((err) => { 
             console.log(err); 
@@ -35,6 +34,14 @@ exports.intents = async (event, context) => {
               message: "Error on the Lambda execution at lexResponses module " + err
             };
           }); 
+      case "Close":
+          return await lexResponses.close(eventSource).catch((err) => { 
+            console.log(err); 
+            return {
+              statusCode: 500,
+              message: "Error on the Lambda execution at lexResponses module " + err
+            };
+          });
       default:
           return {
             statusCode: 500,
