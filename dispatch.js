@@ -11,7 +11,8 @@ module.exports = (intentRequest) => {
    // Do async job
      //Invoke this block when a New Coffee order needs to be processed
    switch(intentName){ 
-      case 'placeNewOrder': 
+      case 'placeNewOrder':
+         intentRequest.sessionAttributes["context"]="placeNewOrder"; 
          orderCoffee(intentRequest).then((evSource)=> {
             console.log(`Promise resolved ${intentName} was invoked`);
             resolve(evSource);
@@ -20,11 +21,12 @@ module.exports = (intentRequest) => {
          });
          break;
       case 'getWeather':
+         intentRequest.sessionAttributes["context"]="getWeather";
          getWeather(intentRequest).then((evSource)=> {
             console.log(`Promise resolved ${intentName} was invoked`);
             resolve(evSource);
-         }).catch((err) => { 
-            console.log(err); 
+         }).catch((err) => {
+            reject(err); 
          });
          break;
      default:

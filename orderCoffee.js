@@ -15,7 +15,7 @@ module.exports = (intentRequest) => {
             "slots": intentRequest.currentIntent.slots,
             "message": {
                 "contentType": "PlainText or SSML or CustomPayload",
-                "content": "Message to convey to the user. For example, What size pizza would you like?"
+                "content": "Message to convey to the user"
                 }, 
             "intentName": intentRequest.currentIntent.name, 
             "slotToElicit": "slot-name"

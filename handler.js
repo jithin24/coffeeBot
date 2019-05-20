@@ -4,57 +4,41 @@ const dispatch = require('./dispatch');
 const lexResponses = require('./lexResponses');
 
 exports.intents = async (event, context) => {
-  let today     = moment(new Date()).format("YYYY-MM-DD");
+  let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  let errObj={};
+  console.log('remaining time =', context.getRemainingTimeInMillis());
+  console.log('functionName =', context.functionName);
+  console.log('AWSrequestID =', context.awsRequestId);
   console.log(`Start Intents Handler @ ${today}`);
   console.log(event);
   console.log(`event.bot.name= ${event.bot.name}`);
   try{
     let eventSource = await dispatch(event).catch((err) => { 
-        console.log(err); 
-        return {
-          statusCode: 500,
-          message: "Error on the Lambda execution at Dispatch module " + err
-        };
+        console.log("In main Error handler Function");
+        console.log(err);
+        errObj=err.errObj;
+        throw new Error(err.errorMsg);
       }); 
-
+    
+    console.log(eventSource);
     switch(eventSource.type){
       case "Delegate":
-            return await lexResponses.delegate(eventSource).catch((err) => { 
-              console.log(err); 
-              return {
-                statusCode: 500,
-                message: "Error on the Lambda execution at lexResponses module " + err
-              };
-            });           
+            return await lexResponses.delegate(eventSource);           
       case "ElicitSlot":
-          return await lexResponses.elicitSlot(eventSource).catch((err) => { 
-            console.log(err); 
-            return {
-              statusCode: 500,
-              message: "Error on the Lambda execution at lexResponses module " + err
-            };
-          }); 
+          return await lexResponses.elicitSlot(eventSource); 
       case "Close":
-          return await lexResponses.close(eventSource).catch((err) => { 
-            console.log(err); 
-            return {
-              statusCode: 500,
-              message: "Error on the Lambda execution at lexResponses module " + err
-            };
-          });
+          return await lexResponses.close(eventSource);
       default:
+          console.log(`Error in Lambda Execution`);
           return {
             statusCode: 500,
-            message: "Error on the Lambda execution at lexResponses module"
-          };   
+            error: "Error in Lambda Execution "
+            }    
     }//End of SWITCH
   }
   catch(err){
-    console.log(`Error: ${err}`);
-    return {
-      statusCode: 500,
-      error: "Error in Lambda Execution " + err
-    };
+    console.log(err);
+    return await lexResponses.close(errObj);
   }
 
 

@@ -21,7 +21,6 @@ module.exports.delegate = (event) => {
     let type=event.type;
     return new Promise((resolve, reject) => {
         //Assign and use the ES6 de-spread operator syntax
-        console.log(`Attributes: ${sessionAttributes} - slots: ${slots}`);
         resolve ({
             sessionAttributes,
             dialogAction: {
@@ -41,7 +40,6 @@ module.exports.elicitSlot = (event) => {
     let message=event.message;
     return new Promise((resolve, reject) => {
         let type='ElicitSlot';
-        console.log(`Attributes: ${sessionAttributes} - slots: ${slots}`);
         resolve ({
             sessionAttributes,
             dialogAction: {
@@ -64,8 +62,8 @@ module.exports.close = (event) => {
     let message=event.message;
     return new Promise((resolve, reject) => {
         //Assign and use the ES6 de-spread operator syntax
-        console.log(`Attributes: ${sessionAttributes} - state: ${fulfillmentState}`);
         resolve ({
+            sessionAttributes,
             dialogAction: {
                 type,
                 fulfillmentState,
